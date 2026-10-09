@@ -1,0 +1,111 @@
+ToolT
+FR
+Honest expectations: This method is not 100% guaranteed. TikTok updates its systems often, and it may stop working at any time.
+Upload to TikTok in higher quality with one drop
+
+Drop a video, get back an upload that keeps its detail and smoothness. Everything happens right inside your browser, so your footage never travels anywhere.
+
+100% private
+Zero uploads
+Free forever
+Drop
+2
+Inspect
+3
+Prepare
+4
+Download
+bbb_720_10s.mp4
+0:10
+1280×720
+30 FPS
+MP4
+Optimized for upload
+Full decode
+RESOLUTION
+1280×720
+FRAME RATE
+30
+DURATION
+0:10
+FILE SIZE
+4.77 MB
+VIDEO CODEC
+H.264 High L5.0
+AUDIO CODEC
+No audio
+DECODED FRAMES
+300/300 · 30
+BLACK FRAMES
+0/300
+DUPLICATE FRAMES
+0/300
+FULLY WHITE FRAMES
+0/300
+SHARPNESS AVG
+6315.3
+Independent parser agrees with our reading of this file
+Quality check
+Video 4.0 Mbps
+2 × 250
+Recording dates or extra tags found; removed when you prepare
+Keyframes are far apart (every 250 frames)
+Method
+Sample-table ghost frames
+Eligible for this file
+Container-only rewrite
+Video untouched
+Audio untouched
+Evidence: outcome D, mechanism B
+Container hygiene remux
+Eligible for this file
+Container-only rewrite
+Video untouched
+Audio untouched
+Evidence: outcome E, mechanism B
+Timescale division in mvhd/mdhd
+Not eligible for this file
+Container-only rewrite
+Video untouched
+Audio untouched
+Evidence: outcome C, mechanism B
+Edit-list media rate signaling
+Not eligible for this file
+Container-only rewrite
+Video untouched
+Audio untouched
+Evidence: outcome C, mechanism B
+Options
+Remove dates & extra tags
+Recording dates and stray metadata are stripped from the prepared file.
+Start over
+Run all methods
+Prepare my video
+
+STEP BY STEP
+
+How to upload for best results
+1
+Use a computer browser
+
+Upload from a PC using Edge, Brave, or Chrome. Desktop uploads preserve quality far better than phone uploads.
+
+2
+Open TikTok Studio
+
+Go to tiktok.com or TikTok Studio and upload the processed file from your computer.
+
+3
+Check on your phone
+
+The video may look glitchy in the desktop preview but usually plays normally in the mobile app.
+
+Even after processing, TikTok still applies its own compression. Results vary from video to video.
+
+ToolT
+
+Privacy: videos are processed entirely in your browser. There are no servers, no uploads, no analytics, and no cookies.
+
+ToolT does not modify fingerprints, perceptual hashes, or anything related to copyright detection.
+
+Not affiliated with TikTok or ByteDance. Use at your own risk.

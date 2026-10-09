@@ -24,6 +24,7 @@ tests/e2e/console-log*.txt
 # next.js
 /.next/
 /out/
+docs/
 
 # production
 /build

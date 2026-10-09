@@ -20,6 +20,8 @@ const csp = [
 ].join("; ");
 
 const nextConfig: NextConfig = {
+  output: "export",
+  images: { unoptimized: true },
   poweredByHeader: false,
   turbopack: {
     rules: {

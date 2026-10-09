@@ -1,0 +1,112 @@
+ToolT
+FR
+Honest expectations: This method is not 100% guaranteed. TikTok updates its systems often, and it may stop working at any time.
+Upload to TikTok in higher quality with one drop
+
+Drop a video, get back an upload that keeps its detail and smoothness. Everything happens right inside your browser, so your footage never travels anywhere.
+
+100% private
+Zero uploads
+Free forever
+Drop
+Inspect
+Prepare
+4
+Download
+Your video is ready
+Smoothness and clarity preserved, ready for TikTok.
+ORIGINAL SIZE
+1.05 MB
+PROCESSED SIZE
+1.05 MB
+DIFFERENCE
++4.67 KB
+DURATION
+0:01
+Source
+RESOLUTION
+1280×720
+DURATION
+0:01
+VIDEO CODEC
+H.264 High L5.0
+AUDIO
+No audio
+CONTAINER
+MP4 · mp42
+FILE SIZE
+1.05 MB
+Method
+Sample-table ghost frames
+Container-only rewrite
+Yes
+Video
+Video untouched
+Audio
+Audio untouched
+Evidence: outcome D, mechanism B
+BastienGimbert/tiktok-quality@5fc3907 · MIT
+Validation
+Checked in 4972 ms
+Structurally valid
+135 ms
+
+7 checks passed; independent parser (MP4Box) agrees
+
+Media preserved
+98 ms
+
+Payload preservation: PASS (64 original samples byte-identical; 576 synthetic sample(s) added); no audio track
+
+Decoded frames verified
+4668 ms
+
+Decoded frames compared: 64/64 selected, all exact (full decode), PSNR 100.0 dB min, SSIM 1.0000 min; 576 synthetic filler sample(s) excluded from decode
+
+Audio preserved
+71 ms
+
+No audio track in source or output; nothing to preserve
+
+LOCALLY VERIFIED
+2b13371146bb
+
+Source file verified
+
+Local validation only. No live TikTok test has been performed.
+
+Not tested on TikTok. Local checks cannot prove how any platform will process this file.
+
+Process another video
+Download report (JSON)
+Download my video
+
+Saved as synth_real60_patched.mp4
+
+STEP BY STEP
+
+How to upload for best results
+1
+Use a computer browser
+
+Upload from a PC using Edge, Brave, or Chrome. Desktop uploads preserve quality far better than phone uploads.
+
+2
+Open TikTok Studio
+
+Go to tiktok.com or TikTok Studio and upload the processed file from your computer.
+
+3
+Check on your phone
+
+The video may look glitchy in the desktop preview but usually plays normally in the mobile app.
+
+Even after processing, TikTok still applies its own compression. Results vary from video to video.
+
+ToolT
+
+Privacy: videos are processed entirely in your browser. There are no servers, no uploads, no analytics, and no cookies.
+
+ToolT does not modify fingerprints, perceptual hashes, or anything related to copyright detection.
+
+Not affiliated with TikTok or ByteDance. Use at your own risk.
