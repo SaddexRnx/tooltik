@@ -23,8 +23,9 @@ tests/e2e/console-log*.txt
 
 # next.js
 /.next/
-/out/
-docs/
+
+# production static export for GitHub Pages hosting
+# (next export builds the static site into out/; that folder is committed)
 
 # production
 /build
