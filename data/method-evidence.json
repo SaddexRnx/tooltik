@@ -1,0 +1,275 @@
+{
+  "version": 2,
+  "compiled": "2026-10-07",
+  "compiledFrom": "Read-only research of 5 public repositories (source, issues, commits, web reports). Ratings describe evidence, not truth.",
+  "ratingScale": {
+    "A": "Independently verified with tests or artifacts",
+    "B": "Code and methodology present, no independent verification",
+    "C": "Claims in README only, weak substantiation",
+    "D": "Contradicted by user reports",
+    "E": "Unverifiable, nothing found"
+  },
+  "principles": [
+    "Outcome ratings concern the claimed effect on TikTok processing, not whether the code produces a valid MP4.",
+    "No method in this database has any rating above B for outcome. Nothing is verified end to end.",
+    "Every engine in this tool is evaluated by local structural validation only. Output is labeled LOCAL VALIDATION, never a platform verdict.",
+    "The original file is never modified. SHA-256 of the source is checked before and after; a mismatch disables download.",
+    "Fragmented (fMP4) inputs are normalized to progressive MP4 before any engine runs; engines classify fragmented input as unsupported.",
+    "localTestStatus reflects actual local gate runs recorded by this project's test suite; liveTestStatus is updated only by a performed live upload test."
+  ],
+  "methods": [
+    {
+      "id": "ghost-frame",
+      "name": "Sample-table ghost frames",
+      "family": "container-rewrite",
+      "reencodeRequired": false,
+      "qualityImpact": "none-pixels-untouched",
+      "description": "Inflate stts/stsz/stsc/stco with fake samples (typically x10) pointing at one small filler NAL, so the file declares a much higher frame density. mdat real samples are untouched.",
+      "outcomeEvidence": "D",
+      "mechanismEvidence": "B",
+      "implementationStatus": "ported",
+      "sourceVersion": "5fc3907",
+      "license": "MIT",
+      "supportedContainers": ["mp4", "mov"],
+      "supportedCodecs": ["h264"],
+      "supportedFPS": "any",
+      "knownLimitations": [
+        "Header durations and timestamps exclude the padding samples, so tools that count samples rather than read headers see a different frame count.",
+        "The shared filler NAL is intentionally not decodable; tools that decode every sample report errors in the padding region."
+      ],
+      "knownTikTokEvidence": "Adverse user reports only: upload stuck 'under review' (tiktok-quality issue #1), forced-private/takedown reports (NoBlur issues #2-#4), one 'didnt work' report (tiktok-lossless-upload issue #1). No verified positive outcome anywhere.",
+      "localTestStatus": "passed-4-gates",
+      "liveTestStatus": "not-performed",
+      "sources": [
+        {
+          "repo": "BastienGimbert/tiktok-quality",
+          "outcomeRating": "B",
+          "mechanismRating": "B",
+          "facts": [
+            "13-step pure container rewrite in src/tiktok_quality/transform.py; no pixel changes; MIT; single commit 5fc3907 (2026-06-16).",
+            "Tests are builder/parser round-trips only; proof.png is one self-produced checker screenshot with no A/B baseline.",
+            "Issue #1 (2026-09-23, unanswered): upload stuck 'under review' more than 48h.",
+            "PR #2 (2026-09-25): 'improved randomization for frames so tiktok aint detecting shi' implies the deterministic pattern is a detection signal.",
+            "Known gaps: stco only (no co64), H.264 only, unguarded audio elst, version-0 box assumptions."
+          ]
+        },
+        {
+          "repo": "irgifebry/NoBlur",
+          "outcomeRating": "D",
+          "mechanismRating": "B",
+          "facts": [
+            "Client-side Vite JS app; codec-aware dummy sizes (H.264 8B, HEVC 16B, VP9/AV1 4B); co64 support; moov-before-mdat with chunk-offset fixup.",
+            "Owner in issue #1 (2026-06-06): 'the patch doesn't work anymore because a new TikTok update blocks it'.",
+            "Blocking issues #2 (2026-08-05), #3 (2026-08-10), #4 (2026-08-15): patched videos forced private or taken down.",
+            "No license file (all rights reserved); last push 2026-07-29, no fix shipped after reports.",
+            "Optional VFI mode re-encodes (libx264 CRF20 ultrafast): quality loss, banned in this tool."
+          ]
+        },
+        {
+          "repo": "buwryme/tiktok-lossless-upload",
+          "outcomeRating": "D",
+          "mechanismRating": "B",
+          "facts": [
+            "Python patcher inflates a duplicated audio track's sample tables (avc1 8B, hvc1 16B, vp09/av01 4B table credited to NoBlur).",
+            "Default CLI path re-encodes (libx264 CRF18); a remux path exists but is not the default.",
+            "Issue #1 (2026-08-11, 'didnt work'): sole user report says quality was still bad; closed without diagnosis.",
+            "Shipped a broken chunk-offset traversal (matched 'media' instead of 'mdia') for roughly 8 weeks; outputs before 2026-10-05 are suspect.",
+            "Tests were added in PR #2 then deleted on merge (2026-10-05); no CI."
+          ]
+        }
+      ],
+      "portNotes": [
+        "Filler target: append one dedicated 8-byte NAL (00 00 00 04 00 00 00 00) at end of mdat and point all ghost offsets there (tiktok-quality approach), not at real media bytes.",
+        "Support co64, versioned boxes, and non-H.264 codecs or gate them as ineligible; never scan payload bytes for box markers.",
+        "Randomized filler sizes and jittered deltas (tiktok-quality PR #2 idea) reduce deterministic fingerprints; keep detectability heuristics (stco uniqueness, size entropy) as local signals only."
+      ]
+    },
+    {
+      "id": "timescale-divide",
+      "name": "Timescale division in mvhd/mdhd",
+      "family": "timing-header-patch",
+      "reencodeRequired": false,
+      "qualityImpact": "none-pixels-untouched-declared-timing-changes",
+      "description": "Divide movie/track timescale and duration by a divider (60fps: 2, 120fps: 4) while leaving stts deltas untouched, so the file declares a lower frame rate to the server but keeps every frame.",
+      "outcomeEvidence": "C",
+      "mechanismEvidence": "B",
+      "implementationStatus": "ported",
+      "sourceVersion": "unknown",
+      "license": "GPL-3.0 (license file; README claims MIT)",
+      "supportedContainers": ["mp4", "mov"],
+      "supportedCodecs": ["h264"],
+      "supportedFPS": [60, 120],
+      "knownLimitations": [
+        "This port divides only the video track's mdhd timescale and duration; audio, mvhd and tkhd stay untouched (reference tools divide mvhd too, some without adjusting tkhd, which desynchronizes header durations).",
+        "stts deltas are untouched, so sample timestamps stretch by the divider while the header duration stays the same; local players may present fewer frames or run slower than the source. Timing change is declared to the user.",
+        "Eligibility requires an exactly divisible video timescale and duration and a declared 60fps or 120fps; other frame rates are refused."
+      ],
+      "knownTikTokEvidence": "README claims only, contradicted internally (README says timescale is inflated, code divides it). The primary source's own research doc states no local MP4 method was found to work 100% after server processing. One unanswered report of mobile glitches after patching.",
+      "localTestStatus": "passed-4-gates",
+      "liveTestStatus": "not-performed",
+      "sources": [
+        {
+          "repo": "ut0ku/120fps-method",
+          "outcomeRating": "B",
+          "mechanismRating": "B",
+          "facts": [
+            "C++/Qt app; patches mvhd and every mdhd timescale and duration by division; mdat and sample tables never touched.",
+            "README says timescale is inflated; code divides it (README contradicts itself).",
+            "Patches audio mdhd too (48000 divided), risking desync; naive indexOf('mvhd') byte scan can hit payload; mvhd version-1 offset bug.",
+            "Issue #2 (2026-05-01, unanswered): still glitchy on mobile after patch, contradicting the README mitigation claim.",
+            "License file says GPL-3.0 while README claims MIT; treat as GPL-3.0."
+          ]
+        },
+        {
+          "repo": "shinodamza07-dev/Upload120",
+          "outcomeRating": "C",
+          "mechanismRating": "B",
+          "facts": [
+            "Browser JS patcher with three methods; balanced-sync divides mvhd and video mdhd timescale/duration then adds an elst with media_rate = divider; classic-force replicates ut0ku without elst.",
+            "Synthetic box tests only (4-96 byte fake boxes); no real fixtures, no CI, issues disabled.",
+            "Own research doc (docs/tiktok-method-research.md, 2026-06-11): 'Current research did not find any additional local MP4 method that works 100% after TikTok server processing' and 'Do not claim Upload120 bypasses TikTok compression'.",
+            "Adds u120 and iTunes tags that fingerprint the output as produced by this tool."
+          ]
+        }
+      ],
+      "portNotes": [
+        "Only edit the video track's mdhd; never divide audio timescale.",
+        "Walk the parsed box tree; never indexOf-scan raw bytes.",
+        "Declared timing becomes internally inconsistent with stts; treat as an explicit, documented candidate with local playback warnings, not a default."
+      ]
+    },
+    {
+      "id": "edit-list-signal",
+      "name": "Edit-list media rate signaling",
+      "family": "container-rewrite",
+      "reencodeRequired": false,
+      "qualityImpact": "none-pixels-untouched",
+      "description": "Insert an edts/elst with media_rate integer set (1.0x as identity signal, or N.0x after a timescale division) plus marker tags in udta/meta.",
+      "outcomeEvidence": "C",
+      "mechanismEvidence": "B",
+      "implementationStatus": "ported",
+      "sourceVersion": "unknown",
+      "license": "unknown",
+      "supportedContainers": ["mp4", "mov"],
+      "supportedCodecs": ["h264"],
+      "supportedFPS": "any",
+      "knownLimitations": [
+        "Inserts the identity edit list only when the video track has no edit list; files that already carry one are refused rather than modified.",
+        "Marker tags and 'Patched by' strings from reference tools are deliberately not reproduced."
+      ],
+      "knownTikTokEvidence": "No outcome measurements in either source; issues disabled on the primary repo; no community signal exists. One source credits a commercial browser extension without data.",
+      "localTestStatus": "passed-4-gates",
+      "liveTestStatus": "not-performed",
+      "sources": [
+        {
+          "repo": "shinodamza07-dev/Upload120",
+          "outcomeRating": "C",
+          "mechanismRating": "B",
+          "facts": [
+            "extension-signal method inserts identity elst (media_rate 1/1) plus 'TikTok Web Signal' tags with no timing change at all.",
+            "No outcome measurements anywhere in the repo; issues are disabled so no community signal exists.",
+            "Rebases stco/co64 correctly on box insertion (applyOperations) with checkedU32 overflow guards."
+          ]
+        },
+        {
+          "repo": "buwryme/tiktok-lossless-upload",
+          "outcomeRating": "D",
+          "mechanismRating": "B",
+          "facts": [
+            "v1 (Aug 2026) inflated elst from 0x1 to 0x10000001, credited to a commercial browser extension; superseded by the current pipeline.",
+            "Identity elst insert remains in the current patcher."
+          ]
+        }
+      ],
+      "portNotes": [
+        "elst insertion is spec-legal and quality-neutral; platform effect unknown (self-reported only).",
+        "Marker tags and 'Patched by' strings are fingerprints; this tool adds none."
+      ]
+    },
+    {
+      "id": "hygiene-remux",
+      "name": "Container hygiene remux",
+      "family": "container-rewrite",
+      "reencodeRequired": false,
+      "qualityImpact": "none-samples-byte-identical",
+      "description": "Non-semantic normalization: moov before mdat (fast-start), ftyp brand normalize, strip timestamps and identifying metadata, remove udta junk, unify handler names. No claim of affecting platform processing.",
+      "outcomeEvidence": "E",
+      "mechanismEvidence": "B",
+      "implementationStatus": "ported",
+      "sourceVersion": "5fc3907",
+      "license": "MIT",
+      "supportedContainers": ["mp4", "mov"],
+      "supportedCodecs": ["h264"],
+      "supportedFPS": "any",
+      "knownLimitations": [
+        "May realign audio edit-list timing when the source requires it (reported as stats.audioAdjusted).",
+        "Non-AV tracks (timecode, subtitles, metadata tracks) are removed from the output."
+      ],
+      "knownTikTokEvidence": "No source claims this changes platform outcomes; no adverse reports exist because no outcome is claimed.",
+      "localTestStatus": "passed-4-gates",
+      "liveTestStatus": "not-performed",
+      "sources": [
+        {
+          "repo": "BastienGimbert/tiktok-quality",
+          "outcomeRating": "E",
+          "mechanismRating": "B",
+          "facts": [
+            "ftyp mp42 to isom, free box insert, moov-before-mdat with stco recompute, udta/meta rebuild, audio handler rename to SoundHandler.",
+            "Metadata scrubbing is standard hygiene; no repo claims it changes platform outcomes on its own."
+          ]
+        },
+        {
+          "repo": "shinodamza07-dev/Upload120",
+          "outcomeRating": "E",
+          "mechanismRating": "B",
+          "facts": [
+            "Creation-time zeroing and handler normalization are documented as hygiene, not as a bypass."
+          ]
+        }
+      ],
+      "portNotes": [
+        "This is the only family with no negative reports: it changes no media bytes and makes no promises.",
+        "All outputs from this tool are sample-table and header edits over byte-identical mdat payloads; validation asserts that equality directly."
+      ]
+    },
+    {
+      "id": "reencode-variant",
+      "name": "Client-side re-encode variants",
+      "family": "transcode",
+      "reencodeRequired": true,
+      "qualityImpact": "lossy-degraded-by-definition",
+      "description": "Re-encode video (ffmpeg.wasm or similar) with CRF settings before patching, sometimes spoofing bitrate boxes afterward.",
+      "outcomeEvidence": "D",
+      "mechanismEvidence": "B",
+      "implementationStatus": "banned-documented-only",
+      "sourceVersion": "n/a",
+      "license": "n/a",
+      "supportedContainers": [],
+      "supportedCodecs": [],
+      "supportedFPS": "any",
+      "knownLimitations": [
+        "BANNED in this tool by product rule: video quality is never touched, no exceptions. Documented only."
+      ],
+      "knownTikTokEvidence": "Adverse: sources admit quality loss (CRF 18-20, ultrafast); one source spoofs codec/bitrate boxes and writes an invalid mp4a sample rate.",
+      "localTestStatus": "not-applicable",
+      "liveTestStatus": "not-performed",
+      "sources": [
+        {
+          "repo": "irgifebry/NoBlur",
+          "outcomeRating": "D",
+          "mechanismRating": "B",
+          "facts": ["VFI mode: minterpolate to 60fps with libx264 CRF20 preset ultrafast; README admits speed over quality."]
+        },
+        {
+          "repo": "buwryme/tiktok-lossless-upload",
+          "outcomeRating": "D",
+          "mechanismRating": "B",
+          "facts": ["Default encode libx264 CRF18; spoofs avcC/btrt/esds from the source and writes 0 into the mp4a sample-rate field (invalid)."]
+        }
+      ],
+      "portNotes": [
+        "BANNED in this tool by product rule: video quality is never touched, no exceptions. Kept in the database only so the ban is documented with evidence."
+      ]
+    }
+  ]
+}
