@@ -44,7 +44,7 @@ ToolTik prepares your video so TikTok keeps more of its detail and smoothness. D
 ## 🚀 Quick start
 
 ```bash
-git clone https://github.com/sadekplus/tooltik.git
+git clone https://github.com/SaddexRnx/tooltik.git
 cd tooltik
 npm install
 npm run dev       # development on http://localhost:3000
