@@ -834,7 +834,7 @@ async function testValidation(): Promise<void> {
 
 /**
  * Negative fixtures (tests/fixtures/negative): every one must fail
- * deterministically — either at inspection or at the structural gate —
+ * deterministically - either at inspection or at the structural gate -
  * and never produce a downloadable result.
  */
 async function testNegativeFixtures(): Promise<void> {
@@ -1437,7 +1437,7 @@ async function main(): Promise<void> {
       const brand = String.fromCharCode(head[8], head[9], head[10], head[11]);
       const isHevc = f.includes("hevc");
       const expectError = f.includes("fragmented") ? "fragmented" : undefined;
-      // Fragmented inputs are remuxed first, exactly like the app does —
+      // Fragmented inputs are remuxed first, exactly like the app does -
       // except for fixtures that must keep throwing at inspection.
       let input: File | undefined;
       if (!expectError) {

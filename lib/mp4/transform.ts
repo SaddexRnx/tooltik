@@ -8,7 +8,7 @@
  *  1. `ftyp` rebranded to `isom`, fast-start layout (moov before mdat)
  *  2. `avcC` extended with High-profile bytes
  *  3. "Ghost frames": declared frame count inflated 10x, every ghost frame
- *     pointing at one shared 8-byte filler NAL — +8 bytes of media total,
+ *     pointing at one shared 8-byte filler NAL - +8 bytes of media total,
  *     no pixels are re-encoded or modified
  *  4. Audio handler renamed to "SoundHandler", language set to `und`,
  *     timing realigned (payload bytes untouched)
@@ -445,7 +445,7 @@ function buildIdentityEdts(segmentDuration: number): Uint8Array {
 }
 
 /**
- * Applies the metadata/container patch. No pixels are re-encoded — the
+ * Applies the metadata/container patch. No pixels are re-encoded - the
  * output media data is byte-for-byte identical to the input, plus one shared
  * 8-byte filler NAL and rebuilt metadata tables.
  */
@@ -834,7 +834,7 @@ export async function transformMedia(
   if (moovOut.length !== moovSizePass1) throw new PatchError("corrupt");
 
   // -------------------------------------------------------------------------
-  // 6. Assemble output — media streams straight from the original file
+  // 6. Assemble output - media streams straight from the original file
   // -------------------------------------------------------------------------
   const mdatHeader =
     mdatHeaderSize === 16

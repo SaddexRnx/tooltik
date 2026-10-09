@@ -4,7 +4,7 @@
  * Instead of loading a potentially huge video into memory, we walk the
  * top-level box headers (16-byte reads) and load only the `moov` metadata
  * box (typically < 1 MB). The patching step later streams the media data
- * straight from the original `File` via `Blob` slices — the pixels are
+ * straight from the original `File` via `Blob` slices - the pixels are
  * never copied into JavaScript memory.
  */
 

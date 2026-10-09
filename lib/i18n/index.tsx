@@ -3,7 +3,7 @@
 /**
  * Lightweight, instant language switching (English ⇄ Arabic) with RTL support.
  *
- * No network requests, no locale files fetched at runtime — both dictionaries
+ * No network requests, no locale files fetched at runtime - both dictionaries
  * are bundled. The preference lives in localStorage and is exposed through
  * `useSyncExternalStore` so SSR and hydration stay consistent (server always
  * renders English, the client adopts the stored language right after
@@ -76,7 +76,7 @@ function readStoredLanguage(): string {
     const stored = normalize(window.localStorage.getItem(STORAGE_KEY));
     if (stored) return stored;
   } catch {
-    // storage unavailable — fall through to browser language
+    // storage unavailable - fall through to browser language
   }
   try {
     return browserLanguage();
@@ -135,7 +135,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
     try {
       window.localStorage.setItem(STORAGE_KEY, next);
     } catch {
-      // storage unavailable — still switch for this session
+      // storage unavailable - still switch for this session
     }
     notify();
   }, []);

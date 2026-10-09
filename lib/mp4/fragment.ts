@@ -43,14 +43,14 @@ import {
 } from "./build";
 import { scanTopLevel } from "./inspect";
 
-// tfhd flags — ISO/IEC 14496-12:2015 §8.8.7.1
+// tfhd flags - ISO/IEC 14496-12:2015 §8.8.7.1
 const TFHD_BASE_DATA_OFFSET = 0x000001;
 const TFHD_SAMPLE_DESC_INDEX = 0x000002;
 const TFHD_DEFAULT_DURATION = 0x000008;
 const TFHD_DEFAULT_SIZE = 0x000010;
 const TFHD_DEFAULT_FLAGS = 0x000020;
 
-// trun flags — ISO/IEC 14496-12:2015 §8.8.8.1
+// trun flags - ISO/IEC 14496-12:2015 §8.8.8.1
 const TRUN_DATA_OFFSET = 0x000001;
 const TRUN_FIRST_SAMPLE_FLAGS = 0x000004;
 const TRUN_SAMPLE_DURATION = 0x000100;

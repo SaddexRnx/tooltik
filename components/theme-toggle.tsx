@@ -74,7 +74,7 @@ export function ThemeToggle() {
     try {
       window.localStorage.setItem("toolt-theme-tint", next ? "1" : "0");
     } catch {
-      // storage unavailable — apply for this render only
+      // storage unavailable - apply for this render only
     }
     document.documentElement.classList.toggle("dark-tint", next);
     for (const listener of tintListeners.current) listener();

@@ -258,7 +258,7 @@ export function buildBtrt(
 }
 
 /**
- * Builds `udta > meta > ilst > ©cmt > data` with an iTunes-style comment —
+ * Builds `udta > meta > ilst > ©cmt > data` with an iTunes-style comment -
  * the metadata signature used by the reference implementation.
  */
 export function buildUdtaComment(comment: string): Uint8Array {

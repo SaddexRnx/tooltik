@@ -1,13 +1,13 @@
 /**
  * The three mandatory validation gates.
  *
- *   Gate 1 — structural: does the output parse, are its tables coherent,
+ *   Gate 1 - structural: does the output parse, are its tables coherent,
  *            and does an independent parser agree?
- *   Gate 2 — payload: every original encoded sample (video AND audio)
+ *   Gate 2 - payload: every original encoded sample (video AND audio)
  *            is byte-identical in the output.
- *   Gate 3 — decoded frames: WebCodecs output of both files matches.
+ *   Gate 3 - decoded frames: WebCodecs output of both files matches.
  *
- * ANY gate failing keeps `pass:false` — the UI must never offer a download
+ * ANY gate failing keeps `pass:false` - the UI must never offer a download
  * in that state (no exceptions, no "download anyway"). Each gate records
  * its own duration so reports can show measured times.
  */

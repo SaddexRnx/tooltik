@@ -124,7 +124,7 @@ export function* iterBoxes(
  *
  * Convenience semantics: when `start`/`end` describe a container box's own
  * range (i.e. the box at `start` spans exactly `end`), the search happens
- * among that container's *children* — so `findBox(buf, "stts", stbl.start,
+ * among that container's *children* - so `findBox(buf, "stts", stbl.start,
  * stbl.end)` means "find stts inside stbl", which is what callers always
  * intend.
  */

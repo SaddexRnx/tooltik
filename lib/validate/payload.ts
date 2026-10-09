@@ -3,7 +3,7 @@
  *
  * Compares the encoded sample byte sequences (NOT the whole-file hash) of
  * the original and patched files, per track. Any original sample whose
- * bytes changed (or vanished) is a FAIL — a byte-exact remux of untouched
+ * bytes changed (or vanished) is a FAIL - a byte-exact remux of untouched
  * media must reproduce every original sample verbatim.
  *
  * Synthetic samples (ghost frames) are allowed and counted separately;
@@ -198,7 +198,7 @@ async function compareGreedy(
 
 /**
  * Full payload comparison for one track. Table extraction errors become
- * `pass:false` with the error attached — validation must fail closed.
+ * `pass:false` with the error attached - validation must fail closed.
  */
 export async function comparePayload(
   original: Blob,

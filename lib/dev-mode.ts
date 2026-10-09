@@ -43,7 +43,7 @@ export function setDevMode(next: boolean): void {
   try {
     window.localStorage.setItem(STORAGE_KEY, next ? "1" : "0");
   } catch {
-    // storage unavailable — still applies for this session via notify()
+    // storage unavailable - still applies for this session via notify()
   }
   notify();
 }
