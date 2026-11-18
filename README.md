@@ -4,6 +4,10 @@ Prepare a video so TikTok keeps more of its detail, entirely in your browser. Dr
 
 One thing to be upfront about: this is not guaranteed. TikTok changes its systems often and always applies its own compression on top. ToolTik improves the input you give it, it does not turn off TikTok's compression. Results vary from video to video.
 
+## About
+
+I made this after noticing how much detail TikTok was stripping out of my uploads. I can't control what happens after upload, but I can control what goes in, so that's what ToolTik does. I'm Saddek, a developer in Algeria. More of my work is at [saddexrnx.github.io](https://saddexrnx.github.io) and I'm on [Telegram](https://t.me/Saddex_x).
+
 ## How it works
 
 ToolTik rewrites the MP4 container without touching the actual video and audio bytes. It offers four preparation methods:
